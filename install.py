@@ -30,7 +30,6 @@ class dv_command:
             proc.wait()
     def logger(self, command):
         command = command.split()
-        time_stamp = datetime.datetime.now().strftime('%m/%d/%y-%H:%M:%S:%f')
         if command[0] == 'sudo':
             command = command[1]
         else:
