@@ -12,6 +12,7 @@ os.makedirs(SETUP_DIR, exist_ok=True)
 os.makedirs(LOG_DIR, exist_ok=True)
 
 class dv_command:
+    stamps = []
     def __init__(self, cmd_name, path=SCRIPT_DIR, type='sh'):
         self.cmd= cmd_name
         self.path = path
@@ -28,6 +29,7 @@ class dv_command:
                 stderr=log
             )
             proc.wait()
+        self.time_logger()
     def logger(self, command):
         command = command.split()
         if command[0] == 'sudo':
@@ -36,9 +38,12 @@ class dv_command:
             command = command[0]
         spacer = '-' * 20
         log = open(p.join(LOG_DIR, 'dv_init.log'), 'a')
-        log.write('\n' + spacer + command + spacer + time_stamp + '\n')
+        log.write('\n' + spacer + command + spacer + '\n')
         log.flush()
         return log
+    def time_logger(self):
+        self.stamps.append('test')
+
 
 
 commands = [
@@ -50,3 +55,5 @@ commands = [
 
 for cmd in commands:
     cmd.run()
+
+print(commands[0].stamps)
