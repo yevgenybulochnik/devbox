@@ -62,18 +62,37 @@ class dv_command:
         self.stamps.append(time_stamp)
 
 
-commands = [
-    dv_command('wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz -N', SETUP_DIR),
-    dv_command('tar -xf Python-3.6.3.tgz', SETUP_DIR),
-    dv_command(p.join('.', SETUP_DIR, 'Python-3.6.3', 'configure'), SETUP_DIR),
-    dv_command('rm -rf ' + SETUP_DIR),
-    dv_command('print("Finish")', type='py')
-]
+def get_time(commands):
+    stamps = commands[0].stamps
+    start = stamps[0]
+    end = stamps[len(stamps) - 1]
+    time = end - start
+    return time
 
-for cmd in commands:
-    cmd.run()
 
-stamps = commands[0].stamps
-start = stamps[0]
-end = stamps[len(stamps) - 1]
-print(str(end - start))
+def main(py_version):
+    if len(py_version) > 5:
+        version = py_version[0:5]
+        release = py_version[5:]
+    else:
+        version = py_version
+        release = ''
+
+    commands = [
+        dv_command('wget https://www.python.org/ftp/python/{}/Python-{}.tgz -N'.format(version, version + release), SETUP_DIR),
+        dv_command('tar -xf Python-{}.tgz'.format(version + release), SETUP_DIR),
+        dv_command(p.join('.', SETUP_DIR, 'Python-{}'.format(version + release), 'configure'), SETUP_DIR),
+        dv_command('rm -rf ' + SETUP_DIR),
+        dv_command('print("Finish")', type='py')
+    ]
+
+    for cmd in commands:
+        cmd.run()
+
+    elapsed_time = get_time(commands)
+    log = open(p.join(LOG_DIR, 'dv_init_time.log'), 'a')
+    log.write(str(elapsed_time))
+    print(elapsed_time)
+
+
+main('3.6.4')
