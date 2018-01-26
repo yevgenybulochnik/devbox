@@ -21,7 +21,7 @@ class dv_command:
         self.type = type
 
     def run(self):
-        self.time_logger(self.name)
+        start = datetime.datetime.now()
         if self.type == 'py':
             self.logger(self.name)
             exec(self.name)
@@ -34,8 +34,13 @@ class dv_command:
                 stderr=log
             )
             proc.wait()
+        end = datetime.datetime.now()
+        elasped_time = end - start
+        self.time_logger(self.name, elasped_time)
 
     def logger(self, command):
+        time_stamp = datetime.datetime.now()
+        time_stamp_str = time_stamp.strftime('%m/%d/%y-%H:%M:%S:%f')
         command = command.split()
         if command[0] == 'sudo':
             command = command[1]
@@ -43,31 +48,26 @@ class dv_command:
             command = command[0]
         spacer = '-' * 20
         log = open(p.join(LOG_DIR, 'dv_init.log'), 'a')
-        log.write('\n' + spacer + command + spacer + '\n')
+        log.write('\n' + spacer + command + spacer + time_stamp_str + '\n')
         log.flush()
         return log
 
-    def time_logger(self, command):
+    def time_logger(self, command, elapsed_time):
         command = command.split()
-        time_stamp = datetime.datetime.now()
-        time_stamp_str = time_stamp.strftime('%m/%d/%y-%H:%M:%S:%f')
         if command[0] == 'sudo':
             command = command[1]
         else:
             command = command[0]
         spacer = '\n' + ('-' * 40) + '\n'
         log = open(p.join(LOG_DIR, 'dv_init_time.log'), 'a')
-        log.write(spacer + command + '\n----' + time_stamp_str + '\n')
+        log.write(spacer + command + '\n----' + str(elapsed_time) + '\n')
         log.flush()
-        self.stamps.append(time_stamp)
+        self.stamps.append(elapsed_time)
 
 
 def get_time(commands):
-    stamps = commands[0].stamps
-    start = stamps[0]
-    end = stamps[len(stamps) - 1]
-    time = end - start
-    return time
+    times = commands[0].stamps
+    return sum(times, datetime.timedelta(0))
 
 
 def main(py_version):
