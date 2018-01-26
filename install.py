@@ -16,19 +16,19 @@ class dv_command:
     stamps = []
 
     def __init__(self, cmd_name, path=SCRIPT_DIR, type='sh'):
-        self.cmd = cmd_name
+        self.name = cmd_name
         self.path = path
         self.type = type
 
     def run(self):
-        self.time_logger(self.cmd)
+        self.time_logger(self.name)
         if self.type == 'py':
-            self.logger(self.cmd)
-            exec(self.cmd)
+            self.logger(self.name)
+            exec(self.name)
         else:
-            log = self.logger(self.cmd)
+            log = self.logger(self.name)
             proc = subprocess.Popen(
-                self.cmd.split(),
+                self.name.split(),
                 cwd=self.path,
                 stdout=log,
                 stderr=log
