@@ -79,10 +79,15 @@ def main(py_version):
         release = ''
 
     commands = [
+        dv_command('sudo apt update'),
+        dv_command('sudo apt install -y libsqlite3-dev'),
         dv_command('wget https://www.python.org/ftp/python/{}/Python-{}.tgz -N'.format(version, version + release), SETUP_DIR),
         dv_command('tar -xf Python-{}.tgz'.format(version + release), SETUP_DIR),
         dv_command(p.join('.', SETUP_DIR, 'Python-{}'.format(version + release), 'configure'), SETUP_DIR),
-        dv_command('rm -rf ' + SETUP_DIR),
+        dv_command('make', SETUP_DIR),
+        dv_command('sudo make altinstall', SETUP_DIR),
+        dv_command('sudo rm -rf ' + SETUP_DIR),
+        dv_command('sudo pip3.6 install .'),
         dv_command('print("Finish")', type='py')
     ]
 
