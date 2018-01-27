@@ -88,15 +88,17 @@ def main(py_version):
         dv_command('sudo make altinstall', SETUP_DIR),
         dv_command('sudo rm -rf ' + SETUP_DIR),
         dv_command('sudo pip3.6 install .'),
-        dv_command('print("Finish")', type='py')
     ]
 
     for cmd in commands:
+        print('\nRunning: ' + cmd.name)
         cmd.run()
+        print('Elapsed Time: ' + str(get_time(commands)))
 
     elapsed_time = get_time(commands)
     log = open(p.join(LOG_DIR, 'dv_init_time.log'), 'a')
     log.write(str(elapsed_time))
+    print('\nFinished')
     print(elapsed_time)
 
 
