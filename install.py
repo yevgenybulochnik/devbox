@@ -78,9 +78,20 @@ def main(py_version):
         version = py_version
         release = ''
 
+    deb_dep = [
+        'build-essential',
+        'libncursesw5-dev',
+        'libssl-dev',
+        'libc6-dev',
+        'libsqlite3-dev',
+        'tk-dev',
+        'libbz2-dev',
+        'zlib1g-dev'
+    ]
+
     commands = [
         dv_command('sudo apt update'),
-        dv_command('sudo apt install -y libsqlite3-dev'),
+        dv_command('sudo apt install -y ' + ' '.join(deb_dep)),
         dv_command('wget https://www.python.org/ftp/python/{}/Python-{}.tgz -N'.format(version, version + release), SETUP_DIR),
         dv_command('tar -xf Python-{}.tgz'.format(version + release), SETUP_DIR),
         dv_command(p.join('.', SETUP_DIR, 'Python-{}'.format(version + release), 'configure'), SETUP_DIR),
