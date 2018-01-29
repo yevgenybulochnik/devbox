@@ -18,7 +18,7 @@ def main():
         if not module.startswith('_'):
             mod = getattr(devbox, module)
             for k, v in options.items():
-                if hasattr(mod, k):
+                if hasattr(mod, k) and v:
                     command = getattr(mod, k)
                     command = command(options)
                     command.run()
