@@ -34,7 +34,6 @@ class adduser(Base_Command):
     def run(self):
         if not os.geteuid() == 0:
             sys.exit('\n This command must be run as Root \n')
-        print(self.options)
         new_user = Devbox_User(
             self.options['<username>'],
             self.options['<password>'],
@@ -43,4 +42,3 @@ class adduser(Base_Command):
         new_user.create()
         new_user.set_pwdls_sudo()
         new_user.get_dotfiles()
-        print(new_user.__dict__)
