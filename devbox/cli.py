@@ -3,11 +3,13 @@ Devbox is a python command line application that assists in provisioning a devel
 
 Usage:
     devbox adduser <username> [--dotfiles=URL]
-    devbox a2config
+    devbox a2config --domain=DOMAIN --password=PASSWORD
 
 Options:
     -h --help
-    -d URL, --dotfiles=URL
+    -df URL, --dotfiles=URL
+    -d DOMAIN, --domain=DOMAIN
+    -p PASSWORD, --password=PASSWORD
 
 """
 from docopt import docopt
