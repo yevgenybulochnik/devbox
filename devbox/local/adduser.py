@@ -7,9 +7,8 @@ from plumbum import local
 
 class Devbox_User(object):
 
-    def __init__(self, username, password, dotfiles_url):
+    def __init__(self, username, dotfiles_url):
         self.username = username
-        self.password = password
         self.dotfiles_url = dotfiles_url
         self.HOME = f'/home/{self.username}'
 
@@ -46,7 +45,6 @@ class adduser(Base_Command):
             sys.exit('\n This command must be run as Root \n')
         new_user = Devbox_User(
             self.options['<username>'],
-            self.options['<password>'],
             self.options['--dotfiles']
         )
         new_user.create()

@@ -2,7 +2,7 @@
 Devbox is a python command line application that assists in provisioning a development server.
 
 Usage:
-    devbox adduser <username> <password> [--dotfiles=URL]
+    devbox adduser <username> [--dotfiles=URL]
 
 Options:
     -h --help
