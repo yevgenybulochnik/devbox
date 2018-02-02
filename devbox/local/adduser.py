@@ -2,6 +2,7 @@ from devbox.base_command import Base_Command
 import subprocess
 import sys
 import os
+import os.path as p
 from plumbum import local
 
 
@@ -28,6 +29,16 @@ class Devbox_User(object):
             git = local['git'][f'clone {self.dotfiles_url} {self.HOME}/dotfiles'.split()]
             return sudo[git]()
 
+    def install_file_exists(self):
+        install_exists = f'{self.HOME}/dotfiles/install.sh'
+        if p.isfile(install_exists):
+            return True
+        return False
+
+    def install_dotfiles(self):
+        su = local['su'][f'-c {self.HOME}/dotfiles/install.sh - {self.username}'.split()]
+        return su()
+
 
 class adduser(Base_Command):
     """Add new user"""
@@ -42,3 +53,5 @@ class adduser(Base_Command):
         new_user.create()
         new_user.set_pwdls_sudo()
         new_user.get_dotfiles()
+        if new_user.install_file_exists():
+            new_user.install_dotfiles()
