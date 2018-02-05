@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='devbox-cli',
@@ -6,7 +6,7 @@ setup(
     description='Command line tool to manage a development environment, including support for AWS resources',
     url='https://github.com/yevgenybulochnik/devbox-cli',
     author='Yevgeny Bulochnik',
-    packages=['devbox'],
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
             'devbox=devbox.cli:main'
