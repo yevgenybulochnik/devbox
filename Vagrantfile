@@ -29,10 +29,10 @@ Vagrant.configure("2") do |config|
         vbox.name = node.hostname
         vbox.memory = node.memory
         vbox.cpus = node.cpus
-      node_config.vm.provision "shell", inline: <<-SHELL
-      python3 /home/ubuntu/shared/install.py
-      SHELL
       end
+      node_config.vm.provision "shell", inline: <<-SHELL
+        python3 /home/ubuntu/shared/install.py
+      SHELL
     end
   end
 end
