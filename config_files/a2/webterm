@@ -1,0 +1,35 @@
+<VirtualHost *:80>
+    ServerName dev.$DOMAIN
+
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{SERVER_NAME}/$$1 [R,L]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName dev.$DOMAIN
+
+    SSLEngine on
+    SSLProxyEngine On
+    SSLCertificateFile /etc/apache2/ssl/apache.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/apache.key
+
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:3000/
+    ProxyPassReverse / http://localhost:3000/
+
+    <Proxy *>
+        AuthType Basic
+        AuthName "Password Required"
+        AuthUserFile /etc/apache2/.htpasswd
+        Require valid-user
+    </Proxy>
+
+    RewriteEngine On
+    RewriteCond %{HTTP:UPGRADE} ^WebSocket$$ [NC]
+    RewriteCond %{HTTP:CONNECTION} ^Upgrade$$ [NC]
+    RewriteRule .* ws://localhost:3000%{REQUEST_URI} [P]
+</VirtualHost>
+
+# vim: syntax=apache
+#Mod_Rewrite and mod_proxy_wstunnel required to use socket.io in ttyjs

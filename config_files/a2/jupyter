@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+    ServerName jupyter.$DOMAIN
+
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{SERVER_NAME}/$$1 [R,L]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName jupyter.$DOMAIN
+
+    SSLEngine on
+    SSLProxyEngine On
+    SSLCertificateFile /etc/apache2/ssl/apache.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/apache.key
+
+    ProxyPreserveHost On
+    ProxyPass / http://localhost:8888/
+    ProxyPassReverse / http://localhost:8888/
+
+    RewriteEngine On
+    RewriteCond %{HTTP:UPGRADE} ^WebSocket$$ [NC]
+    RewriteCond %{HTTP:CONNECTION} ^Upgrade$$ [NC]
+    RewriteRule .* ws://localhost:8888%{REQUEST_URI} [P]
+</VirtualHost>
+
+# vim: syntax=apache
