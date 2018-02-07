@@ -38,6 +38,7 @@ class a2config(Base_Command):
             if vh_template == 'static':
                 with open(f'/etc/apache2/sites-available/{server_name}.conf', 'w') as conf:
                     conf.write(vh)
+                os.makedirs(f'/var/www/{server_name}', exist_ok=True)
             else:
                 with open(f'/etc/apache2/sites-available/{vh_template}.{server_name}.conf', 'w') as conf:
                     conf.write(vh)
