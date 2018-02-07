@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-    ServerName dev.$DOMAIN
+    ServerName webterm.$DOMAIN
 
     RewriteEngine On
     RewriteCond %{HTTPS} off
@@ -7,7 +7,7 @@
 </VirtualHost>
 
 <VirtualHost *:443>
-    ServerName dev.$DOMAIN
+    ServerName webterm.$DOMAIN
 
     SSLEngine on
     SSLProxyEngine On
