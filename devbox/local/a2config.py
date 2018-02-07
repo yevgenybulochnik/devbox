@@ -29,25 +29,18 @@ class a2config(Base_Command):
             a2enmod(mod)
 
     def create_virtual_hosts(self):
-        vhs = [
-            'jupyter',
-            'preview',
-            'static',
-            'webterm'
-        ]
+        vh_templates = os.listdir(pkg_resources.resource_filename('devbox', 'config_files/a2'))
         server_name = self.options['--domain']
-        for vh_template in vhs:
+        for vh_template in vh_templates:
             resource = pkg_resources.resource_filename('devbox', f'config_files/a2/{vh_template}')
             temp = Template(open(resource).read())
             vh = temp.substitute({'DOMAIN': server_name})
             if vh_template == 'static':
-                conf = open(f'/etc/apache2/sites-available/{server_name}.conf', 'w')
-                conf.write(vh)
-                conf.close()
+                with open(f'/etc/apache2/sites-available/{server_name}.conf', 'w') as conf:
+                    conf.write(vh)
             else:
-                conf = open(f'/etc/apache2/sites-available/{vh_template}.{server_name}.conf', 'w')
-                conf.write(vh)
-                conf.close()
+                with open(f'/etc/apache2/sites-available/{vh_template}.{server_name}.conf', 'w') as conf:
+                    conf.write(vh)
 
     def run(self):
         if not os.geteuid() == 0:
