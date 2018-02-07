@@ -28,6 +28,13 @@ class a2config(Base_Command):
         for mod in mods:
             a2enmod(mod)
 
+    def create_ssl_cert(self):
+        cert_dir = '/etc/apache2/ssl'
+        os.makedirs(cert_dir, exist_ok=True)
+        create_cert = local['openssl']
+        arguments = f'req -x509 -nodes -days 365 -newkey rsa:2048 -keyout {cert_dir}/apache.key -out {cert_dir}/apache.crt -subj /C=US/ST=OR/L=Portland/O=""/OU=""/CN=""'.split()
+        create_cert(arguments)
+
     def create_virtual_hosts(self):
         vh_templates = os.listdir(pkg_resources.resource_filename('devbox', 'config_files/a2'))
         server_name = self.options['--domain']
@@ -47,4 +54,5 @@ class a2config(Base_Command):
         if not os.geteuid() == 0:
             sys.exit('\n This command must be run as Root \n')
         self.check_install()
+        self.create_ssl_cert()
         self.create_virtual_hosts()
