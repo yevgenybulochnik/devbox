@@ -35,6 +35,15 @@ class a2config(Base_Command):
         arguments = f'req -x509 -nodes -days 365 -newkey rsa:2048 -keyout {cert_dir}/apache.key -out {cert_dir}/apache.crt -subj /C=US/ST=OR/L=Portland/O=""/OU=""/CN=""'.split()
         create_cert(arguments)
 
+    def create_password(self):
+        password_file = '/etc/apache2/.htpasswd'
+        username = self.options['--authuser']
+        password = self.options['--password']
+        if not p.isfile(password_file):
+            open(password_file, 'w').close()
+        htpasswd = local['htpasswd'][f'-b {password_file} {username} {password}'.split()]
+        htpasswd()
+
     def create_virtual_hosts(self):
         vh_templates = os.listdir(pkg_resources.resource_filename('devbox', 'config_files/a2'))
         server_name = self.options['--domain']
@@ -55,4 +64,5 @@ class a2config(Base_Command):
             sys.exit('\n This command must be run as Root \n')
         self.check_install()
         self.create_ssl_cert()
+        self.create_password()
         self.create_virtual_hosts()
