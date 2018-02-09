@@ -55,6 +55,8 @@ class a2config(Base_Command):
     def create_virtual_hosts(self):
         vh_templates = os.listdir(pkg_resources.resource_filename('devbox', 'config_files/a2'))
         server_name = self.options['--domain']
+        enable_site = local['a2ensite']
+        disable_default_site = local['a2dissite']['000-default.conf']()
         for vh_template in vh_templates:
             resource = pkg_resources.resource_filename('devbox', f'config_files/a2/{vh_template}')
             temp = Template(open(resource).read())
@@ -63,9 +65,12 @@ class a2config(Base_Command):
                 with open(f'/etc/apache2/sites-available/{server_name}.conf', 'w') as conf:
                     conf.write(vh)
                 os.makedirs(f'/var/www/{server_name}', exist_ok=True)
+                enable_site(f'{server_name}.conf')
             else:
                 with open(f'/etc/apache2/sites-available/{vh_template}.{server_name}.conf', 'w') as conf:
                     conf.write(vh)
+                enable_site(f'{vh_template}.{server_name}.conf')
+        restart_apache = local['service']['apache2 restart'.split()]()
 
     def run(self):
         if not os.geteuid() == 0:

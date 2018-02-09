@@ -31,7 +31,9 @@ Vagrant.configure("2") do |config|
         vbox.cpus = node.cpus
       end
       node_config.vm.provision "shell", inline: <<-SHELL
-        python3 /home/ubuntu/shared/install.py
+        /home/ubuntu/shared/install.py
+        devbox adduser yevgeny -d https://github.com/yevgenybulochnik/dotfiles.git
+        devbox a2config -d bulochnik.com -u yevgeny -p 'devbox#1'
       SHELL
     end
   end
