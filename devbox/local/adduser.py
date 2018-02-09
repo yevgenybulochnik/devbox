@@ -39,7 +39,13 @@ class Devbox_User(object):
 
 
 class adduser(Base_Command):
-    """Add new user"""
+    """
+    Usage:
+        adduser <username> [--dotfiles=URL]
+
+    Options:
+        -d, --dotfiles=URL
+    """
     def run(self):
         if not os.geteuid() == 0:
             sys.exit('\n This command must be run as Root \n')

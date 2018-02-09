@@ -8,7 +8,15 @@ from string import Template
 
 
 class a2config(Base_Command):
+    """
+    Usage:
+        a2config --domain=DOMAIN --authuser=USER --password=PASSWORD
 
+    Options:
+        -d, --domain=DOMAIN
+        -u, --authuser=USER
+        -p, --password=PASSWORD
+    """
     def check_install(self):
         install_apache = local['apt']['install -y apache2'.split()]
         a2_exists = '/etc/apache2'
