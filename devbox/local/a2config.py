@@ -23,6 +23,7 @@ class a2config(Base_Command):
         if not p.isdir(a2_exists):
             install_apache()
             self.enable_mods()
+            disable_default_site = local['a2dissite']['000-default.conf']()
 
     def enable_mods(self):
         mods = [
@@ -56,7 +57,6 @@ class a2config(Base_Command):
         vh_templates = os.listdir(pkg_resources.resource_filename('devbox', 'config_files/a2'))
         server_name = self.options['--domain']
         enable_site = local['a2ensite']
-        disable_default_site = local['a2dissite']['000-default.conf']()
         for vh_template in vh_templates:
             resource = pkg_resources.resource_filename('devbox', f'config_files/a2/{vh_template}')
             temp = Template(open(resource).read())
