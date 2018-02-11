@@ -1,4 +1,4 @@
-from devbox.base_command import Base_Command
+from devbox.base_command import BaseCommand
 import sys
 import os
 import os.path as p
@@ -7,7 +7,7 @@ import pkg_resources
 from string import Template
 
 
-class a2config(Base_Command):
+class A2Config(BaseCommand):
     """
     Usage:
         a2config --domain=DOMAIN --authuser=USER --password=PASSWORD

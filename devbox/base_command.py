@@ -1,4 +1,4 @@
-class Base_Command(object):
+class BaseCommand(object):
     """Base command class"""
     def __init__(self, options, *args, **kwargs):
         self.options = options

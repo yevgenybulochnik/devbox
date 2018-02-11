@@ -1,11 +1,11 @@
-from devbox.base_command import Base_Command
+from devbox.base_command import BaseCommand
 import sys
 import os
 import os.path as p
 from plumbum import local
 
 
-class Devbox_User(object):
+class DevboxUser(object):
 
     def __init__(self, username, dotfiles_url):
         self.username = username
@@ -38,7 +38,7 @@ class Devbox_User(object):
         return su()
 
 
-class adduser(Base_Command):
+class AddUser(BaseCommand):
     """
     Usage:
         adduser <username> [--dotfiles=URL]
@@ -49,7 +49,7 @@ class adduser(Base_Command):
     def run(self):
         if not os.geteuid() == 0:
             sys.exit('\n This command must be run as Root \n')
-        new_user = Devbox_User(
+        new_user = DevboxUser(
             self.options['<username>'],
             self.options['--dotfiles']
         )
