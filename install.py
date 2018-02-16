@@ -97,6 +97,9 @@ def main(py_version):
         dv_command(p.join('.', SETUP_DIR, 'Python-{}'.format(version + release), 'configure'), SETUP_DIR),
         dv_command('make', SETUP_DIR),
         dv_command('sudo make altinstall', SETUP_DIR),
+        dv_command('wget https://deb.nodesource.com/setup_8.x', SETUP_DIR),
+        dv_command('bash setup_8.x', SETUP_DIR),
+        dv_command('sudo apt install -y nodejs', SETUP_DIR),
         dv_command('sudo rm -rf ' + SETUP_DIR),
         dv_command('sudo pip3.6 install .'),
     ]
