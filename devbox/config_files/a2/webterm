@@ -15,8 +15,8 @@
     SSLCertificateKeyFile /etc/apache2/ssl/apache.key
 
     ProxyPreserveHost On
-    ProxyPass / http://localhost:3000/
-    ProxyPassReverse / http://localhost:3000/
+    ProxyPass / http://localhost:8080/
+    ProxyPassReverse / http://localhost:8080/
 
     <Proxy *>
         AuthType Basic
@@ -28,7 +28,7 @@
     RewriteEngine On
     RewriteCond %{HTTP:UPGRADE} ^WebSocket$$ [NC]
     RewriteCond %{HTTP:CONNECTION} ^Upgrade$$ [NC]
-    RewriteRule .* ws://localhost:3000%{REQUEST_URI} [P]
+    RewriteRule .* ws://localhost:8080%{REQUEST_URI} [P]
 </VirtualHost>
 
 # vim: syntax=apache

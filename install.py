@@ -90,18 +90,19 @@ def main(py_version):
     ]
 
     commands = [
-        dv_command('sudo apt update'),
-        dv_command('sudo apt install -y ' + ' '.join(deb_dep)),
+        dv_command('apt update'),
+        dv_command('apt install -y ' + ' '.join(deb_dep)),
         dv_command('wget https://www.python.org/ftp/python/{}/Python-{}.tgz -N'.format(version, version + release), SETUP_DIR),
         dv_command('tar -xf Python-{}.tgz'.format(version + release), SETUP_DIR),
         dv_command(p.join('.', SETUP_DIR, 'Python-{}'.format(version + release), 'configure'), SETUP_DIR),
         dv_command('make', SETUP_DIR),
-        dv_command('sudo make altinstall', SETUP_DIR),
+        dv_command('make altinstall', SETUP_DIR),
         dv_command('wget https://deb.nodesource.com/setup_8.x', SETUP_DIR),
         dv_command('bash setup_8.x', SETUP_DIR),
-        dv_command('sudo apt install -y nodejs', SETUP_DIR),
-        dv_command('sudo rm -rf ' + SETUP_DIR),
-        dv_command('sudo pip3.6 install .'),
+        dv_command('apt install -y nodejs', SETUP_DIR),
+        dv_command('npm install -g pm2'),
+        dv_command('rm -rf ' + SETUP_DIR),
+        dv_command('pip3.6 install .'),
     ]
 
     for cmd in commands:

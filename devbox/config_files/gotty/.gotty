@@ -1,0 +1,6 @@
+permit_write = true
+preferences {
+    font_size = 12
+    scrollbar_visible = false
+    cursor_color = "rgba(255, 255, 255, 0.4)"
+}
