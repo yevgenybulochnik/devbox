@@ -33,7 +33,8 @@ Vagrant.configure("2") do |config|
       node_config.vm.provision "shell", inline: <<-SHELL
         /home/ubuntu/shared/install.py
         devbox adduser yevgeny -d https://github.com/yevgenybulochnik/dotfiles.git
-        devbox a2config -d bulochnik.com -u yevgeny -p 'devbox#1'
+        devbox a2config -d bulochnik.com -u yevgeny -p 'test#1'
+        devbox setup --gotty yevgeny
       SHELL
     end
   end
