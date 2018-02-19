@@ -86,10 +86,12 @@ def main(py_version):
         'libsqlite3-dev',
         'tk-dev',
         'libbz2-dev',
-        'zlib1g-dev'
+        'zlib1g-dev',
+        'vim'
     ]
 
     commands = [
+        dv_command('add-apt-repository ppa:jonathonf/vim -y'),
         dv_command('apt update'),
         dv_command('apt install -y ' + ' '.join(deb_dep)),
         dv_command('wget https://www.python.org/ftp/python/{}/Python-{}.tgz -N'.format(version, version + release), SETUP_DIR),

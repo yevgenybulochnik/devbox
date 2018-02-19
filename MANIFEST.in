@@ -1,1 +1,2 @@
 include devbox/config_files/a2/*
+include devbox/config_files/gotty/*
