@@ -7,11 +7,6 @@ Usage:
 
 Options:
     -h --help
-
-Commands:
-    a2config
-    adduser
-    setup
 """
 from docopt import docopt
 import devbox.local
